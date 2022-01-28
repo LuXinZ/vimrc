@@ -15,6 +15,7 @@ set encoding =utf-8
 syntax on
 set noswapfile
 filetype plugin indent on
+let g:mapleader = "\<space>"
 "##########################################################################3
 autocmd vimenter * NERDTree
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
@@ -49,12 +50,15 @@ inoremap <silent><expr> <Tab>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<Tab>" :
       \ coc#refresh()
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr> <c-space> coc#refresh()
+nmap <silent> <LEADER>- <Plug>(coc-diagnostic-prev)
+nmap <silent> <LEADER>= <Plug>(coc-diagnostic-next)
+
 " ###########################################################
 " Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
+nnoremap <silent> <LEADER>h :call <SID>show_documentation()<CR>
+autocmd CursorHold * silent call CocActionAsync('highlight')
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -62,9 +66,11 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
+
 "##########################
 let laststatus = 2 
 let g:airline_powerline_fonts = 1 
 let g:Powerline_symbols = 'fancy'
-"##############################
+"Coc extension download auto =======
+let g:coc_global_extensions = [ 'coc-json', 'coc-vimlsp','coc-rust-analyzer' ]
 
